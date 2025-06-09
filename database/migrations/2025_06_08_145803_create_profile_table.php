@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('profile', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->string('ic');
+            $table->string('email')->unique();
+            $table->string('role');
+            $table->string('password');
         });
     }
 
