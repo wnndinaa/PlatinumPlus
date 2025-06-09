@@ -1,9 +1,9 @@
-<!-- resources/views/layout.blade.php -->
+<!-- resources/views/layouts/auth.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Platinum Plus</title>
+    <title>Platinum Plus - Auth</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {{-- Bootstrap CDN --}}
@@ -16,21 +16,18 @@
         }
 
         .main-content {
-            margin-left: 240px;
             padding: 40px;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 0 12px rgba(0,0,0,0.1);
-            min-height: 90vh;
+            max-width: 500px;
+            margin: 100px auto;
         }
     </style>
 </head>
 <body>
 
-    {{-- Sidebar / Navigation --}}
-    @include('navigation')
-
-    <div class="container-fluid mt-5">
+    <div class="container">
         <div class="main-content">
             @yield('content')
         </div>
