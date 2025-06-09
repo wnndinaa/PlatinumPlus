@@ -2,17 +2,22 @@
 
 namespace App\Models\Profile;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Profile extends Model
+class Profile extends Authenticatable
 {
+    use Notifiable;
+
     protected $table = 'profile';
 
-    // Set 'username' as the primary key
+    // If you want to use username as primary key, this is okay
     protected $primaryKey = 'username';
-    public $incrementing = false;        // username is not auto-incrementing
+    public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false;      // because username is a string
+
+    // If you don't want timestamps, keep this false
+    public $timestamps = false;
 
     protected $fillable = [
         'username',
@@ -21,6 +26,12 @@ class Profile extends Model
         'email',
         'phonemumber',
         'role',
-        'password'
+        'password',
+    ];
+
+    // Optional: hide password in JSON serialization
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 }

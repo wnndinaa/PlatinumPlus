@@ -44,20 +44,5 @@
         <h1>Welcome to Platinum Plus</h1>
         <p>Your trusted platform for managing expert domains, publications, reports, and more. Explore the features and make the most out of your experience.</p>
     </div>
-
-    <script>
-        // Hide the success message after 5 seconds
-        setTimeout(() => {
-            const message = document.getElementById('successMessage');
-            if (message) {
-                // Fade out effect
-                message.style.opacity = '0';
-                // After transition, hide the element completely
-                setTimeout(() => {
-                    message.style.display = 'none';
-                }, 500); // match the CSS transition duration
-            }
-        }, 5000);
-    </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Profile\Profile;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileSeeder extends Seeder
 {
@@ -21,7 +22,7 @@ class ProfileSeeder extends Seeder
             'email'        => 'ali@example.com',
             'phonenumber'  => '0123456789', // make sure column name is correct
             'role'         => 'platinum',
-            'password'     => bcrypt('password123')
+            'password'     => 'test123'
         ]);
     }
 }
