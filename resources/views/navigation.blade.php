@@ -59,7 +59,7 @@
             " onmouseover="this.style.background='#003d80'" onmouseout="this.style.background='#0056b3'">Publication</a>
         </li>
         <li>
-            <a href="report.php" style="
+            <a href="Weekly Progress.php" style="
                 display: block;
                 padding: 12px 20px;
                 background: #0056b3;
@@ -69,7 +69,20 @@
                 text-align: center;
                 font-weight: bold;
                 transition: background 0.3s;
-            " onmouseover="this.style.background='#003d80'" onmouseout="this.style.background='#0056b3'">Report</a>
+            " onmouseover="this.style.background='#003d80'" onmouseout="this.style.background='#0056b3'">Weekly Progress</a>
+        </li>
+        <li>
+            <a href="Draft Thesis.php" style="
+                display: block;
+                padding: 12px 20px;
+                background: #0056b3;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 6px;
+                text-align: center;
+                font-weight: bold;
+                transition: background 0.3s;
+            " onmouseover="this.style.background='#003d80'" onmouseout="this.style.background='#0056b3'">Thesis Draft</a>
         </li>
         <li>
             <a href="logout.php" style="
