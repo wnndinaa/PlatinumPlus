@@ -22,5 +22,5 @@ class ExpertDomainSeeder extends Seeder
             'expert_email' => 'aminah@gmail.com',
             'domain_expertise' => 'Data Analytics and Visualization',
         ]);
-    }
+}
 }
