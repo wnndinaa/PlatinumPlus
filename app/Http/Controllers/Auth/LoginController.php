@@ -19,8 +19,9 @@ class LoginController extends Controller
     {
         $username = $request->input('username');
         $password = $request->input('password');
+        $role = $request->input('role');
 
-        $user = Profile::where('username', $username)->first();
+        $user = Profile::where('username', $username)->where('role', $role)->first();
 
         if ($user) {
             if ($user->password === $password) {

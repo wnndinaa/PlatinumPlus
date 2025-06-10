@@ -33,6 +33,17 @@
                 <input type="password" name="password" class="form-control" required>
             </div>
 
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select name="role" class="form-select" required>
+                    <option value="" disabled selected>-- Select Role --</option>
+                    <option value="Platinum">Platinum</option>
+                    <option value="CRMP">CRMP</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Staff">Staff</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
 
