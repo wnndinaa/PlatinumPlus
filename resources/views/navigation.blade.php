@@ -52,7 +52,8 @@
                 'Profile' => '/profile',
                 'Expert Domain' => '/expert_domain.php',
                 'Publication' => '/publication.php',
-                'Report' => '/report.php',
+                'Weekly Progress' => '/report.php',
+                'Thesis Report' => '/report.php',
                 'Logout' => '/logout.php'
             ];
         @endphp
