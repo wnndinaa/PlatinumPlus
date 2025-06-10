@@ -24,7 +24,7 @@ class Profile extends Authenticatable
         'name',
         'ic',
         'email',
-        'phonemumber',
+        'phonenumber',
         'role',
         'password',
     ];
