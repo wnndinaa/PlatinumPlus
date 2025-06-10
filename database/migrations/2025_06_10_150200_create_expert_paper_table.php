@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('expert_id');
             $table->foreign('expert_id')->references('expert_id')->on('expert_domain')->onDelete('cascade');
             $table->string('username');
-            $table->foreign('username')->references('username')->on('profile')->onDelete('cascade');
+            $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
         });
     }
 

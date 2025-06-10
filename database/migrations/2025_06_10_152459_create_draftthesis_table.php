@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('totalpage');
             $table->integer('prepdays');
             $table->string('feedback');
-            $table->foreign('username')->references('username')->on('profile')->onDelete('cascade');
+
+                        $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
         });
     }
 

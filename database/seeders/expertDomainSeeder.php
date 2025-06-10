@@ -13,7 +13,7 @@ class ExpertDomainSeeder extends Seeder
     public function run(): void
     {
         DB::table('expert_domain')->insert([
-            'username' => 'mentoruser', // Must exist in profile table
+            'username' => 'platinumuser', // Must exist in profile table
             'expert_id' => 'expert1',
             'expert_name' => 'Aminah',
             'expert_university' => 'Universiti Malaysia Pahang',

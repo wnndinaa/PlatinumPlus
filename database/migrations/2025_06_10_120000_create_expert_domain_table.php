@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('expert_occupation');
             $table->string('expert_phoneNum');
             $table->string('expert_email');
-            $table->string(column: 'domain_expertise');
+            $table->string('domain_expertise');
             $table->string('username');
-            $table->foreign('username')->references('username')->on('profile')->onDelete('cascade');
+            $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
         });
     }
 
@@ -31,4 +31,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('expert_domain');
     }
-};
+}; 

@@ -11,22 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('weeklyprogress', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('username');
+        Schema::create('platinum', function (Blueprint $table) {
+            $table->string('username')->primary();
+            $table->string('assignedCRMP');
             $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
-            $table->date('startDate');
-            $table->date('endDate');
-            $table->string('progressinfo');
-            $table->string('feedback');
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('weeklyprogresses');
+        Schema::dropIfExists('platinum');
     }
 };

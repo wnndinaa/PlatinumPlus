@@ -12,7 +12,7 @@ class DraftThesisSeeder extends Seeder
         DB::table('draftthesis')->insert([
             [
                 'id' => 'draft1',
-                'username' => 'platinumuser', // must exist in `profile` table
+                'username' => 'platinumuser', // must exist in profile table
                 'thesislink' => 'https://example.com/thesis1.pdf',
                 'number' => 1,
                 'startDate' => '2025-01-01',
@@ -33,5 +33,5 @@ class DraftThesisSeeder extends Seeder
                 'feedback' => 'Needs more references.',
             ],
         ]);
-    }
 }
+};
