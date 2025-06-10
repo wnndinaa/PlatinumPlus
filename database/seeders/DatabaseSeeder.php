@@ -9,6 +9,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call(ProfileSeeder::class);
+        $this->call([
+            ProfileSeeder::class,
+            ExpertDomainSeeder::class,
+        ]);
     }
 }

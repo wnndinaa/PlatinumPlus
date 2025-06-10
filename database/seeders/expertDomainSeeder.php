@@ -2,25 +2,25 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-
-class expertDomainSeeder extends Seeder
+class ExpertDomainSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('expertDomain')->insert([
+        DB::table('expert_domain')->insert([
+            'username' => 'mentoruser', // Must exist in profile table
             'expert_id' => 'expert1',
-            'expert_name' => 'aminah',
+            'expert_name' => 'Aminah',
             'expert_university' => 'Universiti Malaysia Pahang',
-            'expert_occupation' => 'expert_phoneNum',
+            'expert_occupation' => 'Senior Lecturer',
+            'expert_phoneNum' => '0123344556',
             'expert_email' => 'aminah@gmail.com',
             'domain_expertise' => 'Data Analytics and Visualization',
-        ])
-    ;}
+        ]);
+    }
 }

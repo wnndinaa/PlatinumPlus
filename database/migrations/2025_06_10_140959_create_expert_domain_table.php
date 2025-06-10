@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('expert_phoneNum');
             $table->string('expert_email');
             $table->string(column: 'domain_expertise');
-            $table->foreignId('profiles_username');
-          
+            $table->string('username');
+            $table->foreign('username')->references('username')->on('profile')->onDelete('cascade');
         });
     }
 

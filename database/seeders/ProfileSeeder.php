@@ -11,6 +11,7 @@ class ProfileSeeder extends Seeder
 {
     public function run()
     {
+        DB::table('profile')->delete();
         $users = [
             [
                 'username' => 'platinumuser',
