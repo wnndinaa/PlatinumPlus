@@ -48,6 +48,7 @@
     ">
         @php
             $navItems = [
+                'Dashboard' => '/welcome',
                 'Profile' => '/profile',
                 'Expert Domain' => '/expert_domain.php',
                 'Publication' => '/publication.php',
