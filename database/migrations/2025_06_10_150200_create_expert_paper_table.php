@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('paper_author');
             $table->date('paper_date');
             $table->string('expert_id');
-            $table->foreign('expert_id')->references('expert_id')->on('expertDomain')->onDelete('cascade');
+            $table->foreign('expert_id')->references('expert_id')->on('expert_domain')->onDelete('cascade');
             $table->string('username');
             $table->foreign('username')->references('username')->on('profile')->onDelete('cascade');
         });
