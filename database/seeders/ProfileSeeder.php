@@ -3,11 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-<<<<<<< Updated upstream
-=======
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
->>>>>>> Stashed changes
 use App\Models\Profile\Profile;
 
 class ProfileSeeder extends Seeder
@@ -53,20 +50,8 @@ class ProfileSeeder extends Seeder
             ],
         ];
 
-<<<<<<< Updated upstream
-        Profile::create([
-            'username'     => 'platinum123',
-            'name'         => 'Ali Bin Ahmad',
-            'ic'           => '901231015555',
-            'email'        => 'ali@example.com',
-            'phonenumber'  => '0123456789', // make sure column name is correct
-            'role'         => 'platinum',
-            'password'     => bcrypt('password123')
-        ]);
-=======
         foreach ($users as $user) {
             Profile::create($user);
         }
->>>>>>> Stashed changes
     }
 }
