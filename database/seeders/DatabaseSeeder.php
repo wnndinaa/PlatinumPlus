@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProfileSeeder::class,
             ExpertDomainSeeder::class,
+            draftthesisSeeder::class,
         ]);
     }
 }
