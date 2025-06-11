@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Profile\Profile;
+use App\Models\User\User;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -21,7 +22,7 @@ class LoginController extends Controller
         $password = $request->input('password');
         $role = $request->input('role');
 
-        $user = Profile::where('username', $username)->where('role', $role)->first();
+        $user = User::where('username', $username)->where('role', $role)->first();
 
         if ($user) {
             if ($user->password === $password) {

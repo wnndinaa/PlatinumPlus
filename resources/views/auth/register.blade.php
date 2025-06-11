@@ -49,6 +49,26 @@
                 </select>
             </div>
 
+            <div class="mb-3">
+    <label for="gender" class="form-label">Gender</label>
+    <select name="gender" class="form-select" required>
+        <option value="" disabled selected>-- Select Gender --</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+</div>
+
+
+            <div class="mb-3">
+    <label for="citizenship" class="form-label">Citizenship</label>
+    <select name="citizenship" class="form-select" required>
+        <option value="" disabled selected>-- Select Citizenship --</option>
+        <option value="Malaysian">Malaysian</option>
+        <option value="Non-Malaysian">Non-Malaysian</option>
+    </select>
+</div>
+
+
             <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>
 
