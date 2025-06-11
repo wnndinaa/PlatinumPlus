@@ -26,7 +26,36 @@
     }
 @endphp
 
+@php
+    $role = session('user.role') ?? 'Platinum';
+
+    // Sidebar background color and link default color based on role
+    switch ($role) {
+        case 'CRMP':
+            $sidebarColor = '#28a745'; // Green
+            $linkColor = '#1e7e34';
+            $hoverColor = '#155d27';
+            break;
+        case 'Mentor':
+            $sidebarColor = '#ffc107'; // Yellow
+            $linkColor = '#d39e00';
+            $hoverColor = '#b38f00';
+            break;
+        case 'Staff':
+            $sidebarColor = '#6f42c1'; // Purple
+            $linkColor = '#5a32a3';
+            $hoverColor = '#45257c';
+            break;
+        default: // Platinum or fallback
+            $sidebarColor = '#007bff'; // Blue
+            $linkColor = '#0056b3';
+            $hoverColor = '#003d80';
+            break;
+    }
+@endphp
+
 <nav style="
+    background: {{ $sidebarColor }};
     background: {{ $sidebarColor }};
     width: 220px;
     height: 100vh;
@@ -34,6 +63,7 @@
     top: 0;
     left: 0;
     display: flex;
+    justify-content: center;
     justify-content: center;
     box-sizing: border-box;
 ">
