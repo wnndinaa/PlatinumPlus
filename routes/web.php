@@ -6,14 +6,24 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ReportController\ReportController;
 
-// Route for the homepage
-Route::get('/', function () {
+// Landing page redirects to login
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+
+// Login routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.process');
+
+// Register routes
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'processRegister'])->name('register.submit');
+
+// Protected welcome route
+Route::get('/welcome', function () {
+    if (!Session::has('user')) {
+        return redirect()->route('login')->with('error', 'Please login first.');
+    }
     return view('welcome');
-});
-
-
-// Route for the profile index page
-Route::get('/profile', [ProfileController::class, 'index']);
+})->name('welcome');
 
 // Profile routes (optional: also protect these with session check if needed)
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.profile');
