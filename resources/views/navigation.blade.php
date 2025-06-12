@@ -55,7 +55,10 @@
                 'Report' => '/report.php',
                 'Weekly Progress' => '/report.php',
                 'Draft Thesis' => route('draftThesis.index'),
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
                 'Logout' => '/logout.php'
             ];
         @endphp

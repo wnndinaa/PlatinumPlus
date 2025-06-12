@@ -5,6 +5,10 @@ use App\Http\Controllers\ProfileController\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ReportController\ReportController;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 
 
@@ -27,4 +31,7 @@ Route::post('/profile/update', [ProfileController::class, 'update'])->name('prof
 Route::get('/draftThesis', [ReportController::class, 'index'])->name('draftThesis.index');
 Route::get('/draftThesis/create', [ReportController::class, 'create'])->name('draftThesis.create');
 Route::post('/draftThesis', [ReportController::class, 'store'])->name('draftThesis.store');
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
