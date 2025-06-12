@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ReportController\ReportController;
 
 
+
 // Route for the homepage
 Route::get('/', function () {
     return view('welcome');
