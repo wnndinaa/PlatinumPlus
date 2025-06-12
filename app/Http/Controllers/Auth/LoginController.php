@@ -39,4 +39,15 @@ class LoginController extends Controller
     {
         return 'username';
     }
+
+
+    public function logout(Request $request)
+    {
+        // Remove session manually
+        $request->session()->forget('user');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('success', 'You have successfully logged out.');
+    }
 }
