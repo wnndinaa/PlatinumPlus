@@ -52,7 +52,6 @@
                 'Profile' => '/profile',
                 'Expert Domain' => '/expert_domain.php',
                 'Publication' => '/publication.php',
-Updated upstream
                 'Report' => '/report.php',
                 'Weekly Progress' => '/report.php',
                 'Draft Thesis' => route('draftThesis.index'),
