@@ -44,49 +44,7 @@
             border: 1px solid #f5c6cb;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
 
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        .export-button, .delete-button {
-            display: inline-block;
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 4px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .export-button {
-            background-color: #007bff;
-            margin-top: 15px;
-        }
-
-        .export-button:hover {
-            background-color: #0056b3;
-        }
-
-        .delete-button {
-            background-color: #dc3545;
-            border: none;
-            cursor: pointer;
-        }
-
-        .delete-button:hover {
-            background-color: #b02a37;
-        }
     </style>
 </head>
 <body>
@@ -106,42 +64,6 @@
         @php
             $user = session('user');
         @endphp
-
-        @if($user && strtolower($user['role']) === 'staff')
-            <h2>Current Registered Users</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $u)
-                        <tr>
-                            <td>{{ $u->username }}</td>
-                            <td>{{ $u->email }}</td>
-                            <td>{{ $u->role }}</td>
-                            <td>
-                                @if($u->username !== $user['username'])
-                                    <form action="{{ route('delete.user', ['username' => $u->username]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="delete-button">Delete</button>
-                                    </form>
-                                @else
-                                    <span style="color: gray; font-size: 13px;">(you)</span>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <a href="{{ route('export.users') }}" class="export-button">Export Report</a>
-        @endif
-    </div>
 
     <script>
         setTimeout(() => {

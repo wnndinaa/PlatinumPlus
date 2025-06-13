@@ -27,13 +27,19 @@
     }
 
     $navItems = [
-        'Dashboard' => '/welcome',
+       // 'Dashboard' => '/welcome',
         'Profile' => '/profile',
         'Expert Domain' => '/expert_domain.php',
         'Publication' => '/publication.php',
         'Weekly Progress' => '/report.php',
         'Thesis Report' => '/report.php'
     ];
+
+    if ($role === 'staff') {
+$navItems = ['User List' => route('user.list')] + $navItems;
+
+}
+
 @endphp
 
 

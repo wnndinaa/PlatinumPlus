@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\UserController;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Session;
 
-class HomeController extends Controller
+class UserController extends Controller
 {
-    public function welcome()
+    public function userList()
     {
         $currentUser = session('user');
 
@@ -16,16 +17,15 @@ class HomeController extends Controller
             return redirect()->route('login')->with('error', 'Please login first.');
         }
 
-        $users = [];
-
-        if (strtolower($currentUser['role']) === 'staff') {
-            $users = User::all(); // or filter as needed
+        if (strtolower($currentUser['role']) !== 'staff') {
+            return redirect()->route('welcome')->with('error', 'Unauthorized access.');
         }
 
-        return view('welcome', [
-            'users' => $users
-        ]);
+        $users = User::all();
+        return view('user.userlist', compact('users')); // ✅ Corrected path
     }
+
+
 
     public function exportUsers()
     {
@@ -83,4 +83,5 @@ class HomeController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'User deleted successfully.');
-    }}
+    }
+}
