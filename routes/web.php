@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\PublicationController\PublicationController;
 
 // Landing page redirects to login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -29,3 +30,9 @@ Route::get('/welcome', function () {
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.profile');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+// Publication Route
+Route::get('/publication', [PublicationController::class, 'showViewPublication'])->name('publication');
+Route::get('/publication/MyPublication', [PublicationController::class, 'showMyPublication'])->name('publication.MyPublication');
+Route::get('/publication/MyPublication/EditMyPublication', [PublicationController::class, 'editMyPublication'])->name('publication.MyPublication.edit');
+Route::get('/publication/MyPublication/AddMyPublication', [PublicationController::class, 'AddMyPublication'])->name('publication.MyPublication.add');

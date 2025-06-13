@@ -18,7 +18,8 @@
             $linkColor = '#5a32a3';
             $hoverColor = '#45257c';
             break;
-        default: // Platinum or fallback
+        default:
+            // Platinum or fallback
             $sidebarColor = '#007bff'; // Blue
             $linkColor = '#0056b3';
             $hoverColor = '#003d80';
@@ -46,7 +47,8 @@
             $linkColor = '#5a32a3';
             $hoverColor = '#45257c';
             break;
-        default: // Platinum or fallback
+        default:
+            // Platinum or fallback
             $sidebarColor = '#007bff'; // Blue
             $linkColor = '#0056b3';
             $hoverColor = '#003d80';
@@ -54,7 +56,8 @@
     }
 @endphp
 
-<nav style="
+<nav
+    style="
     background: {{ $sidebarColor }};
     background: {{ $sidebarColor }};
     width: 220px;
@@ -67,7 +70,8 @@
     justify-content: center;
     box-sizing: border-box;
 ">
-    <ul style="
+    <ul
+        style="
         list-style:none;
         padding: 0;
         margin: 0;
@@ -81,16 +85,17 @@
                 'Dashboard' => '/welcome',
                 'Profile' => '/profile',
                 'Expert Domain' => '/expert_domain.php',
-                'Publication' => '/publication.php',
+                'Publication' => '/publication',
                 'Weekly Progress' => '/report.php',
                 'Thesis Report' => '/report.php',
-                'Logout' => '/logout.php'
+                'Logout' => '/logout.php',
             ];
         @endphp
 
-        @foreach($navItems as $label => $link)
+        @foreach ($navItems as $label => $link)
             <li>
-                <a href="{{ $link }}" style="
+                <a href="{{ $link }}"
+                    style="
                     display: block;
                     padding: 12px 20px;
                     background: {{ $linkColor }};
@@ -101,8 +106,8 @@
                     font-weight: bold;
                     transition: background 0.3s;
                 "
-                onmouseover="this.style.background='{{ $hoverColor }}'"
-                onmouseout="this.style.background='{{ $linkColor }}'">
+                    onmouseover="this.style.background='{{ $hoverColor }}'"
+                    onmouseout="this.style.background='{{ $linkColor }}'">
                     {{ $label }}
                 </a>
             </li>
