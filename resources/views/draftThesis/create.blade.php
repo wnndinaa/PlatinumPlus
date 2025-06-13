@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('draftThesis')
+@section('content')
 <div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="w-50 p-4 bg-white rounded shadow">
         <h2 class="text-center mb-4">Draft Thesis Submission</h2>
@@ -8,8 +8,18 @@
         <form action="{{route("draftThesis.store")}}" method="POST">
             @csrf
             <div class="mb-3">
+            <label class="form-label" for="title">Thesis Title</label>
+            <input class="form-control" type="text" id="title" name="title" required>
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label" for="thesislink">Thesis Link</label>
                 <textarea class="form-control" id="thesislink" name="thesislink" cols="30" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
             </div>
 
             <div class="mb-3">

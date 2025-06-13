@@ -47,6 +47,12 @@
         justify-content: center;
     ">
         @php
+            $role = session('user.role') ?? 'Platinum';
+
+            $draftThesisRoute = ($role === 'CRMP')
+                ? route('draftThesis.platinumList') // CRMP route
+                : route('draftThesis.index'); // Platinum route
+
             $navItems = [
                 'Dashboard' => '/welcome',
                 'Profile' => '/profile',
@@ -54,10 +60,11 @@
                 'Publication' => '/publication.php',
                 'Report' => '/report.php',
                 'Weekly Progress' => '/report.php',
-                'Draft Thesis' => route('draftThesis.index'),
+                'Draft Thesis' => $draftThesisRoute,
                 'Logout' => '/logout.php'
             ];
         @endphp
+
 
         @foreach($navItems as $label => $link)
             <li>

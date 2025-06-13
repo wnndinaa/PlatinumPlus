@@ -13,7 +13,9 @@ class DraftThesisSeeder extends Seeder
             [
                 'id' => 'draft1',
                 'username' => 'platinumuser', // must exist in profile table
+                'title' => 'Research on Laravel Security',
                 'thesislink' => 'https://example.com/thesis1.pdf',
+                'description' => 'This thesis explores common vulnerabilities in Laravel applications.',
                 'number' => 1,
                 'startDate' => '2025-01-01',
                 'enddate' => '2025-01-15',
@@ -24,7 +26,9 @@ class DraftThesisSeeder extends Seeder
             [
                 'id' => 'draft1',
                 'username' => 'platinumuser',
+                'title' => 'Research on Laravel development',
                 'thesislink' => 'https://example.com/thesis2.pdf',
+                'description' => 'update chapter 1',
                 'number' => 2,
                 'startDate' => '2025-02-01',
                 'enddate' => '2025-02-15',
@@ -33,5 +37,5 @@ class DraftThesisSeeder extends Seeder
                 'feedback' => 'Needs more references.',
             ],
         ]);
-}
+    }
 };

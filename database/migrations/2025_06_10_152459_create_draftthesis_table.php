@@ -11,15 +11,17 @@ return new class extends Migration
         Schema::create('draftthesis', function (Blueprint $table) {
             $table->string('id');
             $table->string('username');
+            $table->string('title');
             $table->string('thesislink');
+            $table->text('description')->nullable();
             $table->integer('number');
             $table->date('startDate');
             $table->date('enddate');
             $table->integer('totalpage');
             $table->integer('prepdays');
             $table->string('feedback');
-
-                        $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
+            $table->timestamps();
+            $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
         });
     }
 
