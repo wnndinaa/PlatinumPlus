@@ -46,6 +46,14 @@
             </tbody>
         </table>
 
-        <a href="{{ route('export.users') }}" class="btn btn-primary mt-3">Export Report</a>
+<form method="GET" action="{{ route('export.users') }}" class="mt-4 d-flex gap-2 align-items-center">
+    <label for="format" class="form-label mb-0">Export as:</label>
+    <select name="format" id="format" class="form-select w-auto">
+        <option value="pdf">PDF</option>
+        <option value="csv">CSV (Excel)</option>
+    </select>
+    <button type="submit" class="btn btn-success">Export</button>
+</form>
+
     @endif
 @endsection

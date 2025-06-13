@@ -29,7 +29,7 @@ Route::get('/welcome', function () {
 // Protected welcome route (via HomeController)
 Route::get('/user-list', [UserController::class, 'userList'])->name('user.list');
 Route::delete('/user/delete/{username}', [UserController::class, 'deleteUser'])->name('delete.user');
-Route::get('/export-users', [UserController::class, 'exportUsers'])->name('export.users');
+Route::get('/export-users', [UserController::class, 'export'])->name('export.users');
 
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.profile');
