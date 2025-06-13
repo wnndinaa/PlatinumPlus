@@ -6,29 +6,63 @@ use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use App\Models\Platinum\Platinum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-    public function index()
-    {
-        $username = session('user.username');
 
-        if (!$username) {
+    public function index(Request $request)
+    {
+        $currentUsername = session('user.username');
+
+        $currentUser = User::where('username', $currentUsername)->first();
+
+        if (!$currentUser) {
             return redirect()->route('login')->with('error', 'Please login to view your profile.');
         }
 
-        $user = User::where('username', $username)->first();
-        $platinum = Platinum::where('username', $username)->first();
+        $role = $currentUser->role;
 
-        if (!$user) {
-            return redirect()->back()->with('error', 'User profile not found.');
+        // Debug log to check role
+        Log::info('Current user role: ' . $role);
+
+        $searchRoleOptions = [];
+
+        // Explicitly check role
+        if ($role === 'platinum') {
+            $searchRoleOptions = ['platinum'];
+        } elseif ($role === 'crmp') {
+            $searchRoleOptions = ['crmp', 'platinum'];
+        } elseif (in_array($role, ['staff', 'mentor'])) {
+            $searchRoleOptions = ['platinum', 'crmp', 'staff', 'mentor'];
         }
 
+        // Search by role only
+        $searchResults = collect();
+        $hasSearched = false;
+
+        if ($request->filled('searchRole')) {
+            $hasSearched = true;
+            $selectedRole = $request->input('searchRole');
+
+            if (in_array($selectedRole, $searchRoleOptions)) {
+                $searchResults = User::where('username', '!=', $currentUsername)
+                    ->where('role', $selectedRole)
+                    ->get();
+            }
+        }
+
+        $platinum = Platinum::where('username', $currentUsername)->first();
+
         return view('profile.profile', [
-            'user' => $user,
-            'platinum' => $platinum
+            'user' => $currentUser,
+            'platinum' => $platinum,
+            'searchResults' => $searchResults,
+            'hasSearched' => $hasSearched,
+            'searchRoleOptions' => $searchRoleOptions,
         ]);
     }
+
 
     public function edit()
     {
@@ -63,7 +97,6 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'User profile not found.');
         }
 
-        // Update user fields
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phonenumber = $request->phonenumber;
@@ -72,14 +105,12 @@ class ProfileController extends Controller
         $user->gender = $request->gender;
         $user->citizenship = $request->citizenship;
 
-        // Only update password if filled
         if (!empty($request->password)) {
-            $user->password = $request->password; // Or Hash::make($request->password) if you're using hashing
+            $user->password = $request->password;
         }
 
         $user->save();
 
-        // If user is platinum, update additional fields
         if ($platinum) {
             $platinum->assignedCRMP = $request->assignedCRMP;
             $platinum->save();

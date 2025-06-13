@@ -1,19 +1,20 @@
 @php
-    $role = session('user.role') ?? 'Platinum';
+    $user = session('user');
+    $role = strtolower($user['role'] ?? 'platinum'); // Normalize to lowercase
 
     // Sidebar background color and link default color based on role
     switch ($role) {
-        case 'CRMP':
+        case 'crmp':
             $sidebarColor = '#28a745'; // Green
             $linkColor = '#1e7e34';
             $hoverColor = '#155d27';
             break;
-        case 'Mentor':
+        case 'mentor':
             $sidebarColor = '#ffc107'; // Yellow
             $linkColor = '#d39e00';
             $hoverColor = '#b38f00';
             break;
-        case 'Staff':
+        case 'staff':
             $sidebarColor = '#6f42c1'; // Purple
             $linkColor = '#5a32a3';
             $hoverColor = '#45257c';
@@ -34,6 +35,7 @@
         'Thesis Report' => '/report.php'
     ];
 @endphp
+
 
 <nav style="
     background: {{ $sidebarColor }};

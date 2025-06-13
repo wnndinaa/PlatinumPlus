@@ -20,42 +20,135 @@
             border-radius: 8px;
             box-shadow: 0 0 12px rgba(0,0,0,0.1);
             display: inline-block;
-            max-width: 600px;
+            max-width: 900px;
+            text-align: left;
+        }
+
+        .message {
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
         }
 
         .success-message {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
-            padding: 12px 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: opacity 0.5s ease;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .export-button, .delete-button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .export-button {
+            background-color: #007bff;
+            margin-top: 15px;
+        }
+
+        .export-button:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #b02a37;
         }
     </style>
 </head>
 <body>
     @include('navigation')
+
     <div class="container">
-        <div id="successMessage" class="success-message">
-            You have successfully logged in!
-        </div>
+        @if(session('success'))
+            <div class="message success-message">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="message error-message">{{ session('error') }}</div>
+        @endif
+
         <h1>Welcome to Platinum Plus</h1>
-        <p>Your trusted platform for managing expert domains, publications, reports, and more. Explore the features and make the most out of your experience.</p>
+        <p>Your trusted platform for managing expert domains, publications, reports, and more.</p>
+
+        @php
+            $user = session('user');
+        @endphp
+
+        @if($user && strtolower($user['role']) === 'staff')
+            <h2>Current Registered Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($users as $u)
+                        <tr>
+                            <td>{{ $u->username }}</td>
+                            <td>{{ $u->email }}</td>
+                            <td>{{ $u->role }}</td>
+                            <td>
+                                @if($u->username !== $user['username'])
+                                    <form action="{{ route('delete.user', ['username' => $u->username]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="delete-button">Delete</button>
+                                    </form>
+                                @else
+                                    <span style="color: gray; font-size: 13px;">(you)</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <a href="{{ route('export.users') }}" class="export-button">Export Report</a>
+        @endif
     </div>
 
     <script>
-        // Hide the success message after 5 seconds
         setTimeout(() => {
-            const message = document.getElementById('successMessage');
+            const message = document.querySelector('.message');
             if (message) {
-                // Fade out effect
                 message.style.opacity = '0';
-                // After transition, hide the element completely
-                setTimeout(() => {
-                    message.style.display = 'none';
-                }, 500); // match the CSS transition duration
+                setTimeout(() => message.style.display = 'none', 500);
             }
         }, 5000);
     </script>

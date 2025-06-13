@@ -27,7 +27,13 @@ class LoginController extends Controller
         if ($user) {
             if ($user->password === $password) {
 
-                Session::put('user', $user);
+                Session::put('user', [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'role' => strtolower($user->role),
+                ]);
+
 
                 return redirect()->route('welcome')->with('success', 'You have been successfully logged in!');
             }
