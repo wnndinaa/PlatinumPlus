@@ -77,10 +77,11 @@
         justify-content: center;
     ">
         @php
+
             $navItems = [
                 'Dashboard' => '/welcome',
                 'Profile' => '/profile',
-                'Expert Domain' => '/expert_domain.php',
+                'Expert Domain' =>  route('expertDomain.redirect'),
                 'Publication' => '/publication.php',
                 'Weekly Progress' => '/report.php',
                 'Thesis Report' => '/report.php',

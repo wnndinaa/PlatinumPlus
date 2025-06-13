@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('expert_paper', function (Blueprint $table) {
             $table->string('expertPaper_id')->primary();
+            $table->string('paper_title');
             $table->string('paper_DOI');
             $table->string('paper_author');
             $table->date('paper_date');

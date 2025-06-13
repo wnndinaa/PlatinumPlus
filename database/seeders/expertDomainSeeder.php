@@ -13,7 +13,6 @@ class ExpertDomainSeeder extends Seeder
     public function run(): void
     {
         DB::table('expert_domain')->insert([
-            'username' => 'platinumuser', // Must exist in profile table
             'expert_id' => 'expert1',
             'expert_name' => 'Aminah',
             'expert_university' => 'Universiti Malaysia Pahang',
@@ -21,6 +20,7 @@ class ExpertDomainSeeder extends Seeder
             'expert_phoneNum' => '0123344556',
             'expert_email' => 'aminah@gmail.com',
             'domain_expertise' => 'Data Analytics and Visualization',
+            'username' => 'platinumuser', // Must exist in profile table
         ]);
-}
+    }
 }

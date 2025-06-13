@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('platinum', function (Blueprint $table) {
-            $table->string('username')->primary();
-            $table->string('assignedCRMP');
+            $table->string('username')->primary(); // FK to user's username
+            $table->string('assignedCRMP');        // FK to CRMP's username
+
             $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
+            $table->foreign('assignedCRMP')->references('username')->on('user')->onDelete('cascade');
         });
     }
     /**
