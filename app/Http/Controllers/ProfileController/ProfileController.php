@@ -14,42 +14,25 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $currentUsername = session('user.username');
-
         $currentUser = User::where('username', $currentUsername)->first();
 
         if (!$currentUser) {
             return redirect()->route('login')->with('error', 'Please login to view your profile.');
         }
 
-        $role = $currentUser->role;
-
-        // Debug log to check role
-        Log::info('Current user role: ' . $role);
-
-        $searchRoleOptions = [];
-
-        // Explicitly check role
-        if ($role === 'platinum') {
-            $searchRoleOptions = ['platinum'];
-        } elseif ($role === 'crmp') {
-            $searchRoleOptions = ['crmp', 'platinum'];
-        } elseif (in_array($role, ['staff', 'mentor'])) {
-            $searchRoleOptions = ['platinum', 'crmp', 'staff', 'mentor'];
-        }
-
-        // Search by role only
         $searchResults = collect();
         $hasSearched = false;
 
-        if ($request->filled('searchRole')) {
+        if ($request->filled('searchText')) {
             $hasSearched = true;
-            $selectedRole = $request->input('searchRole');
+            $searchText = $request->input('searchText');
 
-            if (in_array($selectedRole, $searchRoleOptions)) {
-                $searchResults = User::where('username', '!=', $currentUsername)
-                    ->where('role', $selectedRole)
-                    ->get();
-            }
+            $searchResults = User::where('username', '!=', $currentUsername)
+                ->where(function ($query) use ($searchText) {
+                    $query->where('username', 'like', '%' . $searchText . '%')
+                        ->orWhere('name', 'like', '%' . $searchText . '%');
+                })
+                ->get();
         }
 
         $platinum = Platinum::where('username', $currentUsername)->first();
@@ -58,8 +41,7 @@ class ProfileController extends Controller
             'user' => $currentUser,
             'platinum' => $platinum,
             'searchResults' => $searchResults,
-            'hasSearched' => $hasSearched,
-            'searchRoleOptions' => $searchRoleOptions,
+            'hasSearched' => $hasSearched
         ]);
     }
 

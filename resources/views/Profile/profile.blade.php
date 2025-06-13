@@ -3,20 +3,14 @@
 @section('content')
 <div class="content">
 
-    {{-- Search Form --}}
-    <div class="card p-4 mb-4">
+{{-- Search Form --}}
+<div class="card p-4 mb-4">
     <form method="GET" action="{{ route('profile.profile') }}">
         <div class="row align-items-end">
             <div class="col-md-10 mb-3">
-                <label for="searchRole">Search by Role:</label>
-                <select name="searchRole" id="searchRole" class="form-select">
-                    <option value="">-- Select Role --</option>
-                    @foreach($searchRoleOptions as $role)
-                        <option value="{{ $role }}" {{ request('searchRole') == $role ? 'selected' : '' }}>
-                            {{ ucfirst($role) }}
-                        </option>
-                    @endforeach
-                </select>
+                <label for="searchText">Search by Username or Name:</label>
+                <input type="text" name="searchText" id="searchText" class="form-control"
+                       placeholder="Enter username or name..." value="{{ request('searchText') }}">
             </div>
             <div class="col-md-2 mb-3">
                 <button class="btn btn-primary w-100">Search</button>
@@ -24,7 +18,6 @@
         </div>
     </form>
 </div>
-
 
     {{-- Current User Profile --}}
     <div class="card p-4 mb-4">
