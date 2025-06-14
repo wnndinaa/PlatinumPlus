@@ -12,18 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('publication', function (Blueprint $table) {
-            $table->string('publication_id')->primary();
+            $table->id('publication_id')->primary();
             $table->string('publication_type');
             $table->string('publication_file');
-            $table->integer('publication_number');
-            $table->string('publication_tittle');
+            $table->string('publication_title');
             $table->string('publication_author');
             $table->date('publication_date');
             $table->string('publication_DOI');
             $table->string('username');
             $table->foreign('username')->references('username')->on('user')->onDelete('cascade');
-            $table->string('expertPaper_id');
-            $table->foreign('expertPaper_id')->references('expertPaper_id')->on('expert_paper')->onDelete('cascade');
         });
     }
 

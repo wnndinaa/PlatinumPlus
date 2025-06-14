@@ -6,72 +6,166 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User\User;
 use App\Models\Platinum\Platinum;
+use App\Models\Publication\Publication;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class PublicationController extends Controller
 {
+    // Show List Of Uploaded Publications
     public function showMyPublication()
     {
-        return view('managePublication.platinumMyPublication');
+        $user = session('user');
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please log in first.');
+        }
+
+        $publications = Publication::where('username', $user->username)->get();
+
+        return view('managePublication.platinumMyPublication', compact('publications'));
     }
 
+    // Display publication Homepage
     public function showViewPublication()
     {
         $role = session('user.role') ?? 'Platinum';
 
+        $publications = Publication::all();
+
         switch ($role) {
             case 'Platinum':
-                return view('managePublication.platinumViewPublication');
+                return view('managePublication.platinumViewPublication', compact('publications'));
             case 'CRMP':
-                return view('managePublication.CRMPViewPublication');
+                return view('managePublication.CRMPViewPublication', compact('publications'));
             case 'Mentor':
-                return view('managePublication.mentorViewPublication');
+                return view('managePublication.mentorViewPublication', compact('publications'));
             default:
                 abort(403, 'Unauthorized action.');
         }
     }
 
-
-    public function editMyPublication()
+    // Go to edit publication page
+    public function editMyPublication($id)
     {
-        return view('managePublication.platinumEditPublication');
+        $user = session('user');
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please log in.');
+        }
+
+        $publication = Publication::find($id);
+
+        if (!$publication || $publication->username !== $user->username) {
+            return redirect()->route('publication.my')->with('error', 'Unauthorized or not found.');
+        }
+
+        return view('managePublication.platinumEditPublication', compact('publication'));
     }
 
+    // Store edited publication
+    public function updateMyPublication(Request $request, $id)
+    {
+        $request->validate([
+            'publication_title' => 'required|string',
+            'publication_author' => 'required|string',
+            'publication_date' => 'required|date',
+            'publication_DOI' => 'required|string',
+            'publication_type' => 'required|string',
+            'publication_file' => 'nullable|file|mimes:pdf|max:20480',
+        ]);
+
+        $user = session('user');
+
+        $publication = Publication::find($id);
+
+        if (!$publication || $publication->username !== $user->username) {
+            return redirect()->route('publication.my')->with('error', 'Unauthorized or not found.');
+        }
+
+        // Update file if uploaded
+        // if ($request->hasFile('publication_file')) {
+        //     \Storage::disk('public')->delete($publication->publication_file);
+        //     $path = $request->file('publication_file')->store('publications', 'public');
+        //     $publication->publication_file = $path;
+        // }
+
+        $publication->update([
+            'publication_title' => $request->publication_title,
+            'publication_author' => $request->publication_author,
+            'publication_date' => $request->publication_date,
+            'publication_DOI' => $request->publication_DOI,
+            'publication_type' => $request->publication_type,
+        ]);
+
+        return redirect()->route('publication.MyPublication')->with('success', 'Publication updated successfully!');
+    }
+
+
+    // Go to Add New Publication Page
     public function addMyPublication()
     {
         return view('managePublication.platinumAddPublication');
     }
 
-    // public function processRegister(Request $request)
-    // {
-    //     // Validate input
-    //     $validated = $request->validate([
-    //         'username' => 'required|string|unique:user,username',
-    //         'password' => 'required|string',
-    //         'name' => 'required|string',
-    //         'email' => 'required|email',
-    //         'ic' => 'required|string',
-    //         'phonenumber' => 'required|string',
-    //         'role' => 'required|in:Platinum,CRMP,Staff,Mentor',
-    //         'gender' => 'required|in:Male,Female',
-    //         'citizenship' => 'required|string',
-    //     ]);
+    // Store entered New Publication
+    public function storeMyPublication(Request $request)
+    {
+        $request->validate([
+            'publication_title' => 'required|string',
+            'publication_author' => 'required|string',
+            'publication_date' => 'required|date',
+            'publication_DOI' => 'required|string',
+            'publication_type' => 'required|string',
+            'publication_file' => 'required|file|mimes:pdf|max:20480', // max 20MB
+        ]);
 
-    //     Log::info('Validated data:', $validated);
-    //     // Save to database
-    //     $user = new User();
-    //     $user->username = $validated['username'];
-    //     $user->password = $validated['password']; // optionally hash it
-    //     $user->name = $validated['name'];
-    //     $user->email = $validated['email'];
-    //     $user->ic = $validated['ic'];
-    //     $user->phonenumber = $validated['phonenumber'];
-    //     $user->role = $validated['role'];
-    //     $user->gender = $validated['gender'];
-    //     $user->citizenship = $validated['citizenship'];
-    //     $user->save();
+        $user = session('user');
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please log in.');
+        }
 
-    //     return redirect()->route('login')->with('success', 'Registration successful! Please login.');
-    // }
+        $path = $request->file('publication_file')->store('publications', 'public');
+
+        Publication::create([
+            'publication_title' => $request->publication_title,
+            'publication_author' => $request->publication_author,
+            'publication_date' => $request->publication_date,
+            'publication_DOI' => $request->publication_DOI,
+            'publication_type' => $request->publication_type,
+            'publication_file' => $path,
+            'username' => $user->username,
+            'expertPaper_id' => null,
+        ]);
+
+        return redirect()->route('publication.MyPublication')->with('success', 'Publication added successfully!');
+    }
+
+    // Delete an uploaded publication
+    public function deletePublication($id)
+    {
+        $user = session('user');
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please log in.');
+        }
+
+        $publication = Publication::find($id);
+
+        // Check if publication exists and belongs to logged-in user
+        if (!$publication || $publication->username !== $user->username) {
+            return redirect()->route('publication.MyPublication')->with('error', 'Unauthorized or not found.');
+        }
+
+        // Optionally delete the file from storage
+        // if ($publication->publication_file) {
+        //     \Storage::disk('public')->delete($publication->publication_file);
+        // }
+
+        $publication->delete();
+
+        return redirect()->route('publication.MyPublication')->with('success', 'Publication deleted successfully.');
+    }
 }

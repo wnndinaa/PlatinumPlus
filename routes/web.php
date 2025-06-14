@@ -34,5 +34,9 @@ Route::post('/profile/update', [ProfileController::class, 'update'])->name('prof
 // Publication Route
 Route::get('/publication', [PublicationController::class, 'showViewPublication'])->name('publication');
 Route::get('/publication/MyPublication', [PublicationController::class, 'showMyPublication'])->name('publication.MyPublication');
-Route::get('/publication/MyPublication/EditMyPublication', [PublicationController::class, 'editMyPublication'])->name('publication.MyPublication.edit');
 Route::get('/publication/MyPublication/AddMyPublication', [PublicationController::class, 'AddMyPublication'])->name('publication.MyPublication.add');
+Route::post('/publication/store', [PublicationController::class, 'storeMyPublication'])->name('publication.store');
+Route::delete('/publication/MyPublication/delete/{id}', [PublicationController::class, 'deletePublication'])->name('publication.MyPublication.delete');
+Route::get('/publication/MyPublication/EditMyPublication/{id}', [PublicationController::class, 'editMyPublication'])->name('publication.MyPublication.edit');
+Route::put('/publication/MyPublication/update/{id}', [PublicationController::class, 'updateMyPublication'])->name('publication.MyPublication.update');
+

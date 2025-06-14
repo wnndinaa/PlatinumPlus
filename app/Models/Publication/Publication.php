@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Publication;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,22 +8,22 @@ class Publication extends Model
 {
     protected $table = 'publication';
 
-    // Set 'username' as the primary key
+    // Primary key is publication_id (and it IS auto-incrementing)
     protected $primaryKey = 'publication_id';
-    public $incrementing = false;        // username is not auto-incrementing
-    protected $keyType = 'string';
-    public $timestamps = false;      // because username is a string
+    public $incrementing = true;
+    protected $keyType = 'int'; // Change to 'string' only if it's a string
+
+    public $timestamps = false; // No created_at, updated_at
 
     protected $fillable = [
-        'publication_id',
         'publication_type',
         'publication_file',
         'publication_number',
-        'publication_tittle',
+        'publication_title',
         'publication_author',
         'publication_date',
         'publication_DOI',
         'username',
-        'experPaper_id'
+        'expertPaper_id'
     ];
 }

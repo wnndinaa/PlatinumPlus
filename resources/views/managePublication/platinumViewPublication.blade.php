@@ -1,15 +1,3 @@
-{{-- <script>
-    function togglePassword() {
-        const input = document.getElementById('password');
-        if (input.type === 'password') {
-            input.type = 'text';
-        } else {
-            input.type = 'password';
-        }
-    }
-</script> --}}
-
-
 @extends('layout')
 
 @section('content')
@@ -38,24 +26,28 @@
                         <th>Title</th>
                         <th>Authors</th>
                         <th>Year</th>
+                        <th>Publication Type</th>
+                        <th>DOI</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($publications as $publication) --}}
-                    <tr>
-                        <td>Publication Title</td>
-                        <td>Publication Authors</td>
-                        <td>Publication Year</td>
-                        {{-- <td>{{ $publication->title }}</td>
-                    <td>{{ $publication->authors }}</td>
-                    <td>{{ $publication->year }}</td> --}}
-                        <td>
-                            <!-- Maybe just view details, since not editable here -->
-                            <a href="#" class="btn btn-info btn-sm">View</a>
-                        </td>
-                    </tr>
-                    {{-- @endforeach --}}
+                    @foreach ($publications as $publication)
+                        <tr>
+                            <td>{{ $publication->publication_title }}</td>
+                            <td>{{ $publication->publication_author }}</td>
+                            <td>{{ \Carbon\Carbon::parse($publication->publication_date)->format('Y') }}</td>
+                            <td>{{ $publication->publication_type }}</td>
+                            <td>{{ $publication->publication_DOI }}</td>
+                            <td>
+                                <a href="{{ asset('storage/' . $publication->publication_file) }}" target="_blank"
+                                    class="btn btn-info btn-sm">
+                                    View
+                                </a>
+
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
 

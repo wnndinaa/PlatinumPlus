@@ -25,42 +25,52 @@
                             <input type="text" name="search" placeholder="Search publications..." class="form-control" />
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-primary mt-2">Search</button>
+                            <button type="submit" class="btn btn-primary">Search</button>
                         </td>
                     </tr>
                 </Table>
             </form>
-
             <table class="table">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Authors</th>
                         <th>Year</th>
+                        <th>Publication Type</th>
+                        <th>DOI</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($publications as $publication) --}}
-                    <tr>
-                        <td>Publication Title</td>
-                        <td>Publication Authors</td>
-                        <td>Publication Year</td>
-                        {{-- <td>{{ $publication->title }}</td>
-                    <td>{{ $publication->authors }}</td>
-                    <td>{{ $publication->year }}</td> --}}
-                        <td>
-                            <!-- Maybe just view details, since not editable here -->
-                            <a href="#" class="btn btn-info btn-sm">View</a>
-                            <a href="#" class="btn btn-info btn-sm">Delete</a>
-                            <a href="#" class="btn btn-info btn-sm">Edit</a>
-                        </td>
-                    </tr>
-                    {{-- @endforeach --}}
+                    @foreach ($publications as $publication)
+                        <tr>
+                            <td>{{ $publication->publication_title }}</td>
+                            <td>{{ $publication->publication_author }}</td>
+                            <td>{{ \Carbon\Carbon::parse($publication->publication_date)->format('Y') }}</td>
+                            <td>{{ $publication->publication_type }}</td>
+                            <td>{{ $publication->publication_DOI }}</td>
+                            <td>
+                                <a href="{{ asset('storage/' . $publication->publication_file) }}" target="_blank"
+                                    class="btn btn-info btn-sm">
+                                    View
+                                </a>
+                                <a href="{{ route('publication.MyPublication.edit', $publication->publication_id) }}"
+                                    class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('publication.MyPublication.delete', $publication->publication_id) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete the publication: {{ $publication->publication_title }}?');"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <a href="{{ route('publication.MyPublication.add') }}">
-                <button class="btn btn-primary mt-3">Add Publication</button>
+                <button class="btn btn-primary">Add Publication</button>
             </a>
         </div>
     </div>
