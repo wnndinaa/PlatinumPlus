@@ -17,13 +17,51 @@
         <div class="card">
             <h2>My Publication</h2>
 
-            <a href="{{ route('publication.MyPublication.edit') }}">
-                <button class="btn btn-primary mt-3">Edit Publication</button>
-            </a>
+            <!-- Search bar -->
+            <form method="GET" action="#" class="mb-3">
+                <Table>
+                    <tr>
+                        <td>
+                            <input type="text" name="search" placeholder="Search publications..." class="form-control" />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary mt-2">Search</button>
+                        </td>
+                    </tr>
+                </Table>
+            </form>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Authors</th>
+                        <th>Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- @foreach ($publications as $publication) --}}
+                    <tr>
+                        <td>Publication Title</td>
+                        <td>Publication Authors</td>
+                        <td>Publication Year</td>
+                        {{-- <td>{{ $publication->title }}</td>
+                    <td>{{ $publication->authors }}</td>
+                    <td>{{ $publication->year }}</td> --}}
+                        <td>
+                            <!-- Maybe just view details, since not editable here -->
+                            <a href="#" class="btn btn-info btn-sm">View</a>
+                            <a href="#" class="btn btn-info btn-sm">Delete</a>
+                            <a href="#" class="btn btn-info btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                    {{-- @endforeach --}}
+                </tbody>
+            </table>
             <a href="{{ route('publication.MyPublication.add') }}">
                 <button class="btn btn-primary mt-3">Add Publication</button>
             </a>
-
         </div>
     </div>
 @endsection

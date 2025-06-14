@@ -4,8 +4,8 @@ namespace App\Http\Controllers\PublicationController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// use App\Models\User\User;
-// use App\Models\Platinum\Platinum;
+use App\Models\User\User;
+use App\Models\Platinum\Platinum;
 use Illuminate\Support\Facades\Log;
 
 
@@ -18,8 +18,20 @@ class PublicationController extends Controller
 
     public function showViewPublication()
     {
-        return view('managePublication.platinumViewPublication');
+        $role = session('user.role') ?? 'Platinum';
+
+        switch ($role) {
+            case 'Platinum':
+                return view('managePublication.platinumViewPublication');
+            case 'CRMP':
+                return view('managePublication.CRMPViewPublication');
+            case 'Mentor':
+                return view('managePublication.mentorViewPublication');
+            default:
+                abort(403, 'Unauthorized action.');
+        }
     }
+
 
     public function editMyPublication()
     {
