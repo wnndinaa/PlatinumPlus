@@ -19,7 +19,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Thesis Link</th>
-                    <th>Actions</th>
+                    <th>Feedback</th>
                 </tr>
             </thead>
             <tbody>

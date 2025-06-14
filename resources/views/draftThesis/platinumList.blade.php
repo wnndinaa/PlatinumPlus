@@ -11,6 +11,11 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
+    
+    <!-- View All Report Button -->
+    <div class="mb-3">
+        <a href="{{ route('draftThesis.allPlatinumReport') }}" class="btn btn-success">View Full Report</a>
+    </div>
 
     <table class="table table-bordered mt-3">
         <thead>

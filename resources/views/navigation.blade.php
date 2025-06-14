@@ -47,11 +47,16 @@
         justify-content: center;
     ">
         @php
-            $role = session('user.role') ?? 'Platinum';
+            $user = session('user');
+            $role = $user->role ?? 'Platinum';
 
             $draftThesisRoute = ($role === 'CRMP')
                 ? route('draftThesis.platinumList') // CRMP route
-                : route('draftThesis.index'); // Platinum route
+                : route('draftThesis.index');       // Platinum route
+
+            $weeklyProgressRoute = ($role === 'CRMP')
+                ? route('weeklyprogress.WPplatinumList') // CRMP route
+                : route('weeklyprogress.index');         // Platinum route
 
             $navItems = [
                 'Dashboard' => '/welcome',
@@ -59,31 +64,58 @@
                 'Expert Domain' => '/expert_domain.php',
                 'Publication' => '/publication.php',
                 'Report' => '/report.php',
-                'Weekly Progress' => '/report.php',
+                'Weekly Progress' => $weeklyProgressRoute,
                 'Draft Thesis' => $draftThesisRoute,
-                'Logout' => '/logout.php'
+                'Logout' => route('logout')
             ];
         @endphp
 
 
+
+
         @foreach($navItems as $label => $link)
-            <li>
-                <a href="{{ $link }}" style="
-                    display: block;
-                    padding: 12px 20px;
-                    background: {{ $linkColor }};
-                    color: #fff;
-                    text-decoration: none;
-                    border-radius: 6px;
-                    text-align: center;
-                    font-weight: bold;
-                    transition: background 0.3s;
-                "
-                onmouseover="this.style.background='{{ $hoverColor }}'"
-                onmouseout="this.style.background='{{ $linkColor }}'">
-                    {{ $label }}
-                </a>
-            </li>
+            @if($label === 'Logout')
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                        @csrf
+                        <button type="submit" style="
+                            width: 100%;
+                            padding: 12px 20px;
+                            background: {{ $linkColor }};
+                            color: #fff;
+                            text-decoration: none;
+                            border-radius: 6px;
+                            text-align: center;
+                            font-weight: bold;
+                            transition: background 0.3s;
+                            border: none;
+                            cursor: pointer;
+                        "
+                        onmouseover="this.style.background='{{ $hoverColor }}'"
+                        onmouseout="this.style.background='{{ $linkColor }}'">
+                            {{ $label }}
+                        </button>
+                    </form>
+                </li>
+            @else
+                <li>
+                    <a href="{{ $link }}" style="
+                        display: block;
+                        padding: 12px 20px;
+                        background: {{ $linkColor }};
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 6px;
+                        text-align: center;
+                        font-weight: bold;
+                        transition: background 0.3s;
+                    "
+                    onmouseover="this.style.background='{{ $hoverColor }}'"
+                    onmouseout="this.style.background='{{ $linkColor }}'">
+                        {{ $label }}
+                    </a>
+                </li>
+            @endif
         @endforeach
     </ul>
 </nav>

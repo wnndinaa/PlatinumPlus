@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,6 +20,8 @@ class weeklyprogressSeeder extends Seeder
             'endDate' => '2025-06-30',
             'progressinfo' => 'Completed chapter 2 draft and started literature review for chapter 3.',
             'feedback' => 'Good progress, keep refining the literature review section.',
+            'created_at' => now()->setTimezone('Asia/Kuala_Lumpur'),
+            'updated_at' => now()->setTimezone('Asia/Kuala_Lumpur'),
         ]);
     }
 }

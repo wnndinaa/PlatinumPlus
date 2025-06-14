@@ -18,7 +18,8 @@ return new class extends Migration
             $table->date('startDate');
             $table->date('endDate');
             $table->string('progressinfo');
-            $table->string('feedback');
+            $table->string('feedback')->nullable(); // Make it nullable if it can be empty
+            $table->timestamps(); // Adds created_at and updated_at columns
         });
     }
 
