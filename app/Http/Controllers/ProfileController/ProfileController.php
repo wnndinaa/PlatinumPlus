@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use App\Models\Platinum\Platinum;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-
     public function index(Request $request)
     {
         $currentUsername = session('user.username');
@@ -37,14 +35,13 @@ class ProfileController extends Controller
 
         $platinum = Platinum::where('username', $currentUsername)->first();
 
-        return view('profile.profile', [
+        return view('manageProfile.profile', [
             'user' => $currentUser,
             'platinum' => $platinum,
             'searchResults' => $searchResults,
             'hasSearched' => $hasSearched
         ]);
     }
-
 
     public function edit()
     {
@@ -61,7 +58,7 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'User profile not found.');
         }
 
-        return view('profile.editprofile', compact('user', 'platinum'));
+        return view('manageProfile.editprofile', compact('user', 'platinum'));
     }
 
     public function update(Request $request)
@@ -79,25 +76,23 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'User profile not found.');
         }
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phonenumber = $request->phonenumber;
-        $user->ic = $request->ic;
-        $user->role = $request->role;
-        $user->gender = $request->gender;
-        $user->citizenship = $request->citizenship;
-
-        if (!empty($request->password)) {
-            $user->password = $request->password;
-        }
-
-        $user->save();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phonenumber' => $request->phonenumber,
+            'ic' => $request->ic,
+            'role' => $request->role,
+            'gender' => $request->gender,
+            'citizenship' => $request->citizenship,
+            'password' => $request->password ?? $user->password
+        ]);
 
         if ($platinum) {
             $platinum->assignedCRMP = $request->assignedCRMP;
             $platinum->save();
         }
 
+        // Make sure this route name exists in web.php or use direct path instead
         return redirect()->route('profile.edit')->with('success', 'Your profile has been successfully updated.');
     }
 }

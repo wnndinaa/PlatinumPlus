@@ -23,7 +23,7 @@ class UserController extends Controller
         }
 
         $users = User::all();
-        return view('user.userlist', compact('users')); // ✅ Corrected path
+        return view('manageUser.userlist', compact('users')); // ✅ Corrected path
     }
 
 
@@ -35,7 +35,7 @@ class UserController extends Controller
 
         if ($format === 'pdf') {
             // Export as PDF
-            $pdf = Pdf::loadView('user.userlist-pdf', ['users' => $users]);
+            $pdf = Pdf::loadView('manageUser.userlist-pdf', ['users' => $users]);
             return $pdf->download('registered_users.pdf');
         } else {
             // Export as CSV
