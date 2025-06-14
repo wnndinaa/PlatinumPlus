@@ -22,8 +22,8 @@
                             <h2>Publications</h2>
                         </td>
                         <td>
-                            <input type="text" name="search" placeholder="Search publications..." class="form-control"
-                                style="margin-left: 328%" />
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Search by Author/Title/Type" class="form-control" style="margin-left: 328%" />
                         </td>
                         <td>
                             <button type="submit" class="btn btn-primary" style="margin-left: 950%">Search</button>

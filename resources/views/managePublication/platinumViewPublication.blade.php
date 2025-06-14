@@ -3,15 +3,15 @@
 @section('content')
     <div class="content">
         <div class="">
-            <form method="GET" action="#" class="mb-3">
+            <form method="GET" action="{{ url()->current() }}" class="mb-3">
                 <Table>
                     <tr>
                         <td>
                             <h2>All Publications</h2>
                         </td>
                         <td>
-                            <input type="text" name="search" placeholder="Search publications..." class="form-control"
-                                style="margin-left: 298%" />
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Search by Author/Title/Type" class="form-control" style="margin-left: 298%" />
                         </td>
                         <td>
                             <button type="submit" class="btn btn-primary" style="margin-left: 860%">Search</button>

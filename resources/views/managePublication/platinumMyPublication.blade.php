@@ -1,22 +1,9 @@
-{{-- <script>
-    function togglePassword() {
-        const input = document.getElementById('password');
-        if (input.type === 'password') {
-            input.type = 'text';
-        } else {
-            input.type = 'password';
-        }
-    }
-</script> --}}
-
-
 @extends('layout')
 
 @section('content')
     <div class="content">
         <div class="">
 
-            <!-- Search bar -->
             <form method="GET" action="#" class="mb-3">
                 <Table>
                     <tr>
@@ -24,7 +11,7 @@
                             <h2>My Publication</h2>
                         </td>
                         <td>
-                            <input type="text" name="search" placeholder="Search publications..." class="form-control"
+                            <input type="text" name="search" placeholder="Search by Author/Title/Type" class="form-control"
                                 style="margin-left: 300%" />
                         </td>
                         <td>
