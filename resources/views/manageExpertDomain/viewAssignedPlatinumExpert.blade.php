@@ -15,6 +15,7 @@
                     <th>Paper Title</th>
                     <th>Date</th>
                     <th>DOI</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

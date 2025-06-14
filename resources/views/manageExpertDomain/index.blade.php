@@ -6,7 +6,7 @@
 <div>
     <form method="GET" action="{{ route('manageExpertDomain.index') }}" class="row mb-3">
     <div class="col-md-4">
-        <input type="text" name="search" class="form-control" placeholder="Search by expert name..." value="{{ $search ?? '' }}">
+        <input type="text" name="search" class="form-control" placeholder="Search" value="{{ $search ?? '' }}">
     </div>
     <div class="col-auto">
         <button type="submit" class="btn btn-secondary">Search</button>
@@ -32,6 +32,7 @@
             <tr>
                 <th>No</th>
                 <th>Expert Name</th>
+                <th>Domain Expertise</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -40,6 +41,7 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $expert->expert_name }}</td>
+                    <td>{{ $expert->domain_expertise }}</td>
                     <td>
                         <a href="{{ route('manageExpertDomain.editExpert', $expert->expert_id) }}" class="btn btn-sm btn-primary">Edit</a>
                         <form action="{{ route('manageExpertDomain.deleteExpert', $expert->expert_id) }}" method="POST" style="display:inline;">

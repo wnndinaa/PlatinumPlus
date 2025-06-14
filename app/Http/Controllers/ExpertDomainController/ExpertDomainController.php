@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\ExpertDomainController;
 
 use App\Http\Controllers\Controller;
-use App\Models\ExpertDomain;
+use App\Models\ExpertDomain\ExpertDomain;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -22,9 +22,13 @@ class ExpertDomainController extends Controller
 
         $expertDomains = ExpertDomain::where('username', $username)
             ->when($search, function ($query, $search) {
-                return $query->where('expert_name', 'like', '%' . $search . '%');
+                return $query->where(function ($subquery) use ($search) {
+                    $subquery->where('expert_name', 'like', '%' . $search . '%')
+                        ->orWhere('domain_expertise', 'like', '%' . $search . '%');
+                });
             })
             ->get();
+
 
         return view('manageExpertDomain.index', compact('expertDomains', 'search'));
     }
@@ -271,11 +275,28 @@ class ExpertDomainController extends Controller
                 'expert_paper.paper_title',
                 'expert_paper.paper_date',
                 'expert_paper.paper_DOI',
-                'expert_domain.expert_name' // optional: if needed
+                'expert_domain.expert_name',
+                'expert_paper.expertPaper_id',
             )
             ->get();
 
         return view('manageExpertDomain.viewDomainExpertise', compact('domain_expertise', 'expertPapers'));
+    }
+
+    public function viewNotify($id)
+    {
+        $paper = DB::table('expert_paper')->where('expertPaper_id', $id)->first();
+
+        if (!$paper) {
+            return redirect()->back()->with('error', 'Paper not found.');
+        }
+
+        $notifications = DB::table('notification')
+            ->where('expertPaper_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('manageExpertDomain.viewNotify', compact('paper', 'notifications'));
     }
 
 
@@ -310,19 +331,55 @@ class ExpertDomainController extends Controller
         return view('manageExpertDomain.platinumList', compact('platinums', 'search'));
     }
 
-    public function platinumReport($username)
+    public function platinumReport()
     {
-        // Get the user
-        $platinumUser = DB::table('user')->where('username', $username)->first();
+        if (!Session::has('user')) {
+            return redirect()->route('login')->with('error', 'Please login first.');
+        }
 
-        // Get count of expert papers for the platinum user
-        $totalPapers = DB::table('expert_paper')
-            ->join('expert_domain', 'expert_paper.expert_id', '=', 'expert_domain.id')
-            ->where('expert_domain.username', $username)
-            ->count();
+        $user = Session::get('user');
 
-        return view('expertDomain.platinumReport', compact('platinumUser', 'totalPapers'));
+        if ($user->role !== 'CRMP') {
+            return redirect()->route('expertDomain.redirect')->with('error', 'Unauthorized.');
+        }
+
+        // Get all Platinum users under this CRMP
+        $platinums = DB::table('platinum')
+            ->join('user', 'platinum.username', '=', 'user.username')
+            ->where('platinum.assignedCRMP', $user->username)
+            ->select('platinum.username', 'user.name')
+            ->get();
+
+        // For each platinum, get their domains and total papers
+        foreach ($platinums as $platinum) {
+            $expertDomains = DB::table('expert_domain')
+                ->where('username', $platinum->username)
+                ->get();
+
+            $domainReports = [];
+
+            $totalPaperCount = 0;
+
+            foreach ($expertDomains as $domain) {
+                $paperCount = DB::table('expert_paper')
+                    ->where('expert_id', $domain->expert_id)
+                    ->count();
+
+                $domainReports[] = [
+                    'domain' => $domain->domain_expertise,
+                    'papers' => $paperCount
+                ];
+
+                $totalPaperCount += $paperCount;
+            }
+
+            $platinum->domains = $domainReports;
+            $platinum->totalPapers = $totalPaperCount;
+        }
+
+        return view('manageExpertDomain.platinumReport', compact('platinums'));
     }
+
     public function viewAssignedPlatinumExpert($username)
     {
         $platinumUser = DB::table('user')->where('username', $username)->first();
@@ -356,7 +413,28 @@ class ExpertDomainController extends Controller
             'message' => 'required|string',
         ]);
 
-        // Save or send the notification (customize as needed)
+        $fromUser = Session::get('user')->username;
+        $toUser = $request->username;
+
+        //Generate custom notification_id (e.g., notif1, notif2...)
+        $lastId = DB::table('notification')
+            ->where('notification_id', 'like', 'notif%')
+            ->orderByRaw("CAST(SUBSTRING(notification_id, 6) AS UNSIGNED) DESC")
+            ->value('notification_id');
+
+        $newId = $lastId ? 'notif' . ((int)substr($lastId, 5) + 1) : 'notif1';
+
+        // Insert notification
+        DB::table('notification')->insert([
+            'notification_id' => $newId,
+            'from_username' => $fromUser,
+            'to_username' => $toUser,
+            'expertPaper_id' => $request->paper_id,
+            'message' => $request->message,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         return redirect()->route('manageExpertDomain.platinumList')->with('success', 'Notification sent.');
     }
 }

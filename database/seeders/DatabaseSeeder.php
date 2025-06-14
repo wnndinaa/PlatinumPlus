@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ExpertPaperSeeder::class,
             PublicationSeeder::class,
             weeklyprogressSeeder::class,
+            notificationSeeder::class,
         ]);
     }
 }

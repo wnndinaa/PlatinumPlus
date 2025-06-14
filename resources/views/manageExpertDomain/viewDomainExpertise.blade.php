@@ -16,6 +16,7 @@
                     <th>Expert Name</th>
                     <th>Date</th>
                     <th>DOI</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,10 @@
                         <td>{{ $paper->expert_name }}</td>
                         <td>{{ $paper->paper_date }}</td>
                         <td>{{ $paper->paper_DOI }}</td>
+                        <td>
+                            <a href="{{ route('manageExpertDomain.notifyPlatinum', ['paper_id' => $paper->expertPaper_id]) }}"
+                            class="btn btn-sm btn-warning">Notify</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

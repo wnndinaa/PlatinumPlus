@@ -13,9 +13,18 @@ class platinumSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('platinum')->insert([
-            'username' => 'platinumuser',
-            'assignedCRMP' => 'crmpuser',
-        ]);
+        DB::table('platinum')->insert(
+            [
+                [
+                    'username' => 'platinumuser',
+                    'assignedCRMP' => 'crmpuser',
+                ],
+
+                [
+                    'username' => 'platinumuser2',
+                    'assignedCRMP' => 'crmpuser',
+                ]
+            ]
+        );
     }
 }

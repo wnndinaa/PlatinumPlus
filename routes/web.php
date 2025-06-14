@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\ProfileController\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -71,14 +72,22 @@ Route::post('/AddPaper/{expert_id}', [ExpertDomainController::class, 'storePaper
 Route::get('/EditPaper/{expertPaper_id}', [ExpertDomainController::class, 'editPaper'])->name('manageExpertDomain.editPaper');
 Route::put('/EditPaper/{expertPaper_id}', [ExpertDomainController::class, 'updatePaper'])->name('manageExpertDomain.updatePaper');
 Route::delete('/DeletePaper/{expertPaper_id}', [ExpertDomainController::class, 'deletePaper'])->name('manageExpertDomain.deletePaper');
+Route::get('/viewNotify/{id}', [ExpertDomainController::class, 'viewNotify'])->name('manageExpertDomain.viewNotify');
+
 
 //other platinum expert list
 Route::get('/ViewPlatinumExpert/{username}', [ExpertDomainController::class, 'viewPlatinumExpert'])->name('manageExpertDomain.viewPlatinumExpert');
-Route::get('/DomainExpertise/{domain_expertise}', [ExpertDomainController::class, 'viewDomainExpertise'])->name('manageExpertDomain.viewDomainExpertise');
+Route::get('/ViewDomainExpertise/{domain_expertise}', [ExpertDomainController::class, 'viewDomainExpertise'])->name('manageExpertDomain.viewDomainExpertise');
 
 //for CRMP
 Route::get('/platinumList', [ExpertDomainController::class, 'platinumList'])->name('manageExpertDomain.platinumList');
 Route::get('/viewAssignedPlatinumExpert/{username}', [ExpertDomainController::class, 'viewAssignedPlatinumExpert'])->name('manageExpertDomain.viewAssignedPlatinumExpert');
-Route::get('/platinumReport/{username}', [ExpertDomainController::class, 'platinumReport'])->name('manageExpertDomain.platinumReport');
+Route::get('/platinumReport', [ExpertDomainController::class, 'platinumReport'])->name('manageExpertDomain.platinumReport');
 Route::get('/notify/{paper_id}', [ExpertDomainController::class, 'notifyPlatinum'])->name('manageExpertDomain.notifyPlatinum');
 Route::post('/send-notification', [ExpertDomainController::class, 'sendNotification'])->name('manageExpertDomain.sendNotification');
+
+//logout
+Route::get('/logout', function () {
+    Session::flush(); // Clears all session data
+    return redirect()->route('login')->with('success', 'You have been logged out.');
+})->name('logout');

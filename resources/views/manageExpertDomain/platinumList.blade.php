@@ -9,6 +9,10 @@
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
+    <form method="GET" action="{{ route('manageExpertDomain.platinumReport') }}">
+        <button type="submit" class="btn btn-secondary mb-3">Generate Report</button>
+    </form>
+
     @if ($platinums->isEmpty())
         <p>No Platinum users found.</p>
     @else
@@ -29,7 +33,6 @@
                     <td>{{ $platinum->name }}</td>
                     <td>
                         <a href="{{ route('manageExpertDomain.viewAssignedPlatinumExpert', $platinum->username) }}" class="btn btn-sm btn-info">View</a>
-                        <a href="{{ route('manageExpertDomain.platinumReport', $platinum->username) }}" class="btn btn-sm btn-secondary">Report</a>
                     </td>
                 </tr>
                 @endforeach

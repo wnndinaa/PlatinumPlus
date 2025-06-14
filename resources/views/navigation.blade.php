@@ -85,7 +85,7 @@
                 'Publication' => '/publication.php',
                 'Weekly Progress' => '/report.php',
                 'Thesis Report' => '/report.php',
-                'Logout' => '/logout.php'
+                'Logout' => route('logout')
             ];
         @endphp
 

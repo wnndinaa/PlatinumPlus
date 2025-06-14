@@ -40,6 +40,7 @@
                         @method('DELETE')
                         <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this paper?')">Delete</button>
                     </form>
+                    <a href="{{ route('manageExpertDomain.viewNotify', $paper->expertPaper_id) }}" class="btn btn-sm btn-info">View Notify</a>
                 </td>
             </tr>
         @endforeach

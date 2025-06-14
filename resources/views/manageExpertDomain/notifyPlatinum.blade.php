@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container mt-4">
+
+    
+
     <h3>Notify {{ $platinumUser->name }} about Paper</h3>
     <p><strong>Paper Title:</strong> {{ $paper->paper_title }}</p>
 
