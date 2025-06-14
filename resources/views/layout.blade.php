@@ -1,6 +1,7 @@
 <!-- resources/views/layout.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Platinum Plus</title>
@@ -20,11 +21,23 @@
             padding: 40px;
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
             min-height: 90vh;
+        }
+
+        .pagination svg {
+            height: 1rem;
+            /* Reduce the size */
+            width: 1rem;
+        }
+
+        .pagination nav>div:first-child {
+            display: none;
+            /* Optional: hide 'Showing x to y of z results' */
         }
     </style>
 </head>
+
 <body>
 
     {{-- Sidebar / Navigation --}}
@@ -37,4 +50,5 @@
     </div>
 
 </body>
+
 </html>

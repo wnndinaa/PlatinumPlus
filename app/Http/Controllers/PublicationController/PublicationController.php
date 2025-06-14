@@ -14,6 +14,32 @@ use Illuminate\Support\Facades\Storage;
 
 class PublicationController extends Controller
 {
+
+    // public function index(Request $request)
+    // {
+    //     // Retrieve Reg_ID from session
+    //     $user = session('user');
+
+    //     $username = $user->username;
+
+    //     $keyword = $request->input('keyword');
+    //     $line = 5;
+
+    //     $query = Publication::where('username', $username);
+
+    //     if (!empty($keyword)) {
+    //         $query->where(function ($q) use ($keyword) {
+    //             $q->where('publication_title', 'like', "%$keyword%")
+    //                 ->orWhere('publication_type', 'like', "%$keyword%")
+    //                 ->orWhere('publication_author', 'like', "%$keyword%");
+    //         });
+    //     }
+
+    //     $publications = $query->orderBy('publication_id', 'desc')->paginate($line);
+
+    //     return view('publication', compact('publications'));
+    // }
+
     // Show List Of Uploaded Publications
     public function showMyPublication()
     {
@@ -23,7 +49,9 @@ class PublicationController extends Controller
             return redirect()->route('login')->with('error', 'Please log in first.');
         }
 
-        $publications = Publication::where('username', $user->username)->get();
+        $publications = Publication::where('username', $user->username)
+            ->orderBy('publication_date', 'desc')
+            ->paginate(7);
 
         return view('managePublication.platinumMyPublication', compact('publications'));
     }
@@ -33,7 +61,7 @@ class PublicationController extends Controller
     {
         $role = session('user.role') ?? 'Platinum';
 
-        $publications = Publication::all();
+        $publications = Publication::orderBy('publication_id', 'desc')->paginate(7);
 
         switch ($role) {
             case 'Platinum':

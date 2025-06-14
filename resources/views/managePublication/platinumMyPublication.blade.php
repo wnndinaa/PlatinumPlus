@@ -14,22 +14,39 @@
 
 @section('content')
     <div class="content">
-        <div class="card">
-            <h2>My Publication</h2>
+        <div class="">
 
             <!-- Search bar -->
             <form method="GET" action="#" class="mb-3">
                 <Table>
                     <tr>
                         <td>
-                            <input type="text" name="search" placeholder="Search publications..." class="form-control" />
+                            <h2>My Publication</h2>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <input type="text" name="search" placeholder="Search publications..." class="form-control"
+                                style="margin-left: 300%" />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 870%">Search</button>
                         </td>
                     </tr>
                 </Table>
             </form>
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap" style="margin-bottom: 20px;">
+                <div>
+                    <a href="{{ route('publication.MyPublication.add') }}" class="btn btn-primary me-2">
+                        Add Publication
+                    </a>
+                    <a href="{{ route('publication') }}" class="btn btn-secondary">
+                        Go To All Publication
+                    </a>
+                </div>
+
+                <div>
+                    {{ $publications->links() }}
+                </div>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
@@ -56,7 +73,8 @@
                                 </a>
                                 <a href="{{ route('publication.MyPublication.edit', $publication->publication_id) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('publication.MyPublication.delete', $publication->publication_id) }}"
+                                <form
+                                    action="{{ route('publication.MyPublication.delete', $publication->publication_id) }}"
                                     method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete the publication: {{ $publication->publication_title }}?');"
                                     style="display:inline;">
@@ -69,9 +87,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <a href="{{ route('publication.MyPublication.add') }}">
-                <button class="btn btn-primary">Add Publication</button>
-            </a>
+
         </div>
     </div>
 @endsection

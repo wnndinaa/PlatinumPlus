@@ -2,24 +2,23 @@
 
 @section('content')
     <div class="content">
-        <div class="card">
-            <h2>All Publications</h2>
-
-            <!-- Search bar -->
+        <div class="">
             <form method="GET" action="#" class="mb-3">
                 <Table>
                     <tr>
                         <td>
-                            <input type="text" name="search" placeholder="Search publications..." class="form-control" />
+                            <h2>All Publications</h2>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-primary mt-2">Search</button>
+                            <input type="text" name="search" placeholder="Search publications..." class="form-control"
+                                style="margin-left: 298%" />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 860%">Search</button>
                         </td>
                     </tr>
                 </Table>
             </form>
-
-            <!-- Publication list -->
             <table class="table">
                 <thead>
                     <tr>
@@ -49,11 +48,13 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
-
-            <a href="{{ route('publication.MyPublication') }}">
-                <button class="btn btn-primary mt-3">My Publication</button>
-            </a>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <a href="{{ route('publication.MyPublication') }}">
+                        <button class="btn btn-primary">Go To My Publication</button>
+                    </a>
+                    <div>
+                        {{ $publications->links() }}
+                    </div>
+                </div>
         </div>
-    </div>
-@endsection
+    @endsection

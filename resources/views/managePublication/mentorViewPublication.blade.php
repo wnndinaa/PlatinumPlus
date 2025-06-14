@@ -2,22 +2,30 @@
 
 @section('content')
     <div class="content">
-        <div class="card">
-            <h2>All Publications</h2>
-
-            <!-- Search bar -->
+        <div class="">
             <form method="GET" action="#" class="mb-3">
                 <Table>
                     <tr>
                         <td>
-                            <input type="text" name="search" placeholder="Search publications..." class="form-control" />
+                            <h2>Publications</h2>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-primary mt-2">Search</button>
+                            <input type="text" name="search" placeholder="Search publications..." class="form-control"
+                                style="margin-left: 328%" />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 950%">Search</button>
                         </td>
                     </tr>
                 </Table>
             </form>
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap" style="margin-bottom: 20px;">
+                <div>
+                </div>
+                <div>
+                    {{ $publications->links() }}
+                </div>
+            </div>
 
             <!-- Publication list -->
             <table class="table">
