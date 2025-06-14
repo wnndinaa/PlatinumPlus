@@ -164,7 +164,7 @@ class ExpertDomainController extends Controller
         $search = $request->input('search');
 
         $papers = DB::table('expert_paper')
-            ->select('expertPaper_id', 'paper_title', 'paper_date') // Explicitly include expertPaper_id
+            ->select('expertPaper_id', 'paper_title', 'paper_author', 'paper_DOI', 'paper_date') // Explicitly include expertPaper_id
             ->where('expert_id', $expert_id)
             ->when($search, function ($query, $search) {
                 return $query->where('paper_title', 'like', '%' . $search . '%');
@@ -269,13 +269,14 @@ class ExpertDomainController extends Controller
         $expertPapers = DB::table('expert_domain')
             ->join('expert_paper', 'expert_domain.expert_id', '=', 'expert_paper.expert_id')
             ->where('expert_domain.domain_expertise', $domain_expertise)
-            ->where('expert_domain.username', '!=', $currentUsername) // 👈 exclude current user
+            ->where('expert_domain.username', '!=', $currentUsername) // exclude current user
             ->select(
-                'expert_domain.domain_expertise',
                 'expert_paper.paper_title',
                 'expert_paper.paper_date',
                 'expert_paper.paper_DOI',
+                'expert_paper.paper_author',
                 'expert_domain.expert_name',
+                'expert_domain.expert_email',
                 'expert_paper.expertPaper_id',
             )
             ->get();
@@ -352,6 +353,7 @@ class ExpertDomainController extends Controller
 
         // For each platinum, get their domains and total papers
         foreach ($platinums as $platinum) {
+            //get all expert domains for this platinum
             $expertDomains = DB::table('expert_domain')
                 ->where('username', $platinum->username)
                 ->get();
@@ -373,8 +375,18 @@ class ExpertDomainController extends Controller
                 $totalPaperCount += $paperCount;
             }
 
+            $totalExperts = DB::table('expert_domain')
+                ->where('username', $platinum->username)
+                ->count();
+
+            $platinum->totalExperts = $totalExperts;
+
+
             $platinum->domains = $domainReports;
             $platinum->totalPapers = $totalPaperCount;
+            $platinum->totalExperts = DB::table('expert_domain')
+                ->where('username', $platinum->username)
+                ->count();
         }
 
         return view('manageExpertDomain.platinumReport', compact('platinums'));
@@ -390,12 +402,13 @@ class ExpertDomainController extends Controller
 
         foreach ($expertDomains as $domain) {
             $domain->papers = DB::table('expert_paper')
-                ->where('expert_id', operator: $domain->expert_id)
+                ->where('expert_id', $domain->expert_id)
                 ->get();
         }
 
         return view('manageExpertDomain.viewAssignedPlatinumExpert', compact('platinumUser', 'expertDomains'));
     }
+
 
     public function notifyPlatinum($paper_id)
     {

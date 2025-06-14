@@ -32,6 +32,7 @@
             <tr>
                 <th>No</th>
                 <th>Expert Name</th>
+                <th>Email</th>
                 <th>Domain Expertise</th>
                 <th>Action</th>
             </tr>
@@ -41,6 +42,7 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $expert->expert_name }}</td>
+                    <td>{{ $expert->expert_email}}</td>
                     <td>{{ $expert->domain_expertise }}</td>
                     <td>
                         <a href="{{ route('manageExpertDomain.editExpert', $expert->expert_id) }}" class="btn btn-sm btn-primary">Edit</a>

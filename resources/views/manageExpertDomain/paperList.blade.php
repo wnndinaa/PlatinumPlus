@@ -23,6 +23,8 @@
         <tr>
             <th>No</th>
             <th>Paper Title</th>
+            <th>Author</th>
+            <th>DOI</th>
             <th>Date</th>
             <th>Action</th>
         </tr>
@@ -32,6 +34,8 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $paper->paper_title }}</td>
+                <td>{{ $paper->paper_author }}</td>
+                <td>{{ $paper->paper_DOI }}</td>
                 <td>{{ $paper->paper_date }}</td>
                 <td>
                     <a href="{{ route('manageExpertDomain.editPaper', $paper->expertPaper_id) }}" class="btn btn-sm btn-primary">Edit</a>

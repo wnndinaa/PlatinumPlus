@@ -12,8 +12,9 @@
                 <tr>
                     <th>Name</th>
                     <th>Domain Expertise</th>
-                    <th>Total Papers (This Domain)</th>
+                    <th>Total Papers (Each Domain)</th>
                     <th>Total Papers (All Domains)</th>
+                    <th>Total Experts</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,7 @@
                             <td>{{ $domain['papers'] }}</td>
                             @if ($index === 0)
                                 <td rowspan="{{ $rowspan }}">{{ $platinum->totalPapers }}</td>
+                                <td rowspan="{{ $rowspan }}">{{ $platinum->totalExperts }}</td>
                             @endif
                         </tr>
                     @endforeach
