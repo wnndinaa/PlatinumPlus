@@ -137,7 +137,6 @@ class PublicationController extends Controller
             'publication_type' => $request->publication_type,
             'publication_file' => $path,
             'username' => $user->username,
-            'expertPaper_id' => null,
         ]);
 
         return redirect()->route('publication.MyPublication')->with('success', 'Publication added successfully!');
