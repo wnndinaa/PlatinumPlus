@@ -62,28 +62,4 @@ class UserController extends Controller
             return response()->stream($callback, 200, $headers);
         }
     }
-
-
-    public function deleteUser($username)
-    {
-        $currentUser = session('user');
-
-        if (!$currentUser || strtolower($currentUser['role']) !== 'staff') {
-            return redirect()->route('login')->with('error', 'Unauthorized access.');
-        }
-
-        if ($currentUser['username'] === $username) {
-            return redirect()->back()->with('error', 'You cannot delete yourself.');
-        }
-
-        $user = \App\Models\User\User::where('username', $username)->first();
-
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
-        }
-
-        $user->delete();
-
-        return redirect()->back()->with('success', 'User deleted successfully.');
-    }
 }
