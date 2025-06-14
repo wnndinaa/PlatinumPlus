@@ -23,6 +23,7 @@ class User extends Model
         'role',
         'password',
         'gender',
-        'citizenship'
+        'citizenship',
+        'delete_requested'
     ];
 }

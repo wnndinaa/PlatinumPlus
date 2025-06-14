@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use App\Models\Platinum\Platinum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
@@ -92,7 +93,62 @@ class ProfileController extends Controller
             $platinum->save();
         }
 
-        // Make sure this route name exists in web.php or use direct path instead
         return redirect()->route('profile.edit')->with('success', 'Your profile has been successfully updated.');
+    }
+
+    public function requestDelete(Request $request)
+    {
+        $username = session('user.username');
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        if ($user->delete_requested) {
+            return redirect()->back()->with('error', 'You have already requested account deletion.');
+        }
+
+        $user->delete_requested = true;
+
+        if ($user->save()) {
+            return redirect()->back()->with('success', 'Account deletion request submitted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to submit deletion request.');
+        }
+    }
+
+    public function approveDelete($username)
+    {
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        if (!$user->delete_requested) {
+            return redirect()->back()->with('error', 'No deletion request found for this user.');
+        }
+
+        $user->delete();
+        return redirect()->back()->with('success', 'User "' . $username . '" has been deleted successfully.');
+    }
+
+    public function rejectDelete(Request $request, $username)
+    {
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        if (!$user->delete_requested) {
+            return redirect()->back()->with('error', 'No deletion request to reject.');
+        }
+
+        $user->delete_requested = false;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Deletion request for "' . $username . '" has been rejected.');
     }
 }

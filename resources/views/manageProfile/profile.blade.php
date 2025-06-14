@@ -3,21 +3,28 @@
 @section('content')
 <div class="content">
 
-{{-- Search Form --}}
-<div class="card p-4 mb-4">
-    <form method="GET" action="{{ route('profile.profile') }}">
-        <div class="row align-items-end">
-            <div class="col-md-10 mb-3">
-                <label for="searchText">Search by Username or Name:</label>
-                <input type="text" name="searchText" id="searchText" class="form-control"
-                       placeholder="Enter username or name..." value="{{ request('searchText') }}">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    {{-- Search Form --}}
+    <div class="card p-4 mb-4">
+        <form method="GET" action="{{ route('profile.profile') }}">
+            <div class="row align-items-end">
+                <div class="col-md-10 mb-3">
+                    <label for="searchText">Search by Username or Name:</label>
+                    <input type="text" name="searchText" id="searchText" class="form-control"
+                           placeholder="Enter username or name..." value="{{ request('searchText') }}">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-primary w-100">Search</button>
+                </div>
             </div>
-            <div class="col-md-2 mb-3">
-                <button class="btn btn-primary w-100">Search</button>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 
     {{-- Current User Profile --}}
     <div class="card p-4 mb-4">
@@ -81,7 +88,22 @@
             <div class="mt-4">
                 <a href="{{ route('profile.edit') }}" class="btn btn-primary">Edit Profile</a>
             </div>
+
         </form>
+
+        {{-- Request Account Deletion --}}
+            <div class="mt-4">
+                @if (!$user->delete_requested)
+                    <form method="POST" action="{{ route('profile.requestDelete') }}" onsubmit="return confirm('Are you sure you want to request account deletion?');">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Request Account Deletion</button>
+                    </form>
+                @else
+                    <div class="alert alert-warning mt-3">
+                        You have already requested account deletion. Please wait for staff to process it.
+                    </div>
+                @endif
+            </div>
     </div>
 
     {{-- Search Results --}}

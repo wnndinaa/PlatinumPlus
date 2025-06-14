@@ -39,3 +39,9 @@ Route::post('/profile/update', [ProfileController::class, 'update'])->name('prof
 // Profile search & view (if applicable)
 Route::get('/profiles', [ProfileController::class, 'search'])->name('profiles.search');
 Route::get('/profiles/{username}', [ProfileController::class, 'viewProfile'])->name('profiles.view');
+Route::post('/profile/request-delete', [ProfileController::class, 'requestDelete'])->name('profile.requestDelete');
+// Approve and delete user
+Route::delete('/users/delete/approve/{username}', [ProfileController::class, 'approveDelete'])->name('delete.user.approve');
+
+// Reject deletion request
+Route::post('/users/delete/reject/{username}', [ProfileController::class, 'rejectDelete'])->name('delete.user.reject');
