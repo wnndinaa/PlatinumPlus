@@ -35,10 +35,11 @@
         'Thesis Report' => '/report.php'
     ];
 
-    if ($role === 'staff') {
-$navItems = ['User List' => route('user.list')] + $navItems;
-
+    if (in_array($role, ['staff', 'mentor'])) {
+    $navItems = ['User List' => route('user.list')] + $navItems;
 }
+
+
 
 @endphp
 

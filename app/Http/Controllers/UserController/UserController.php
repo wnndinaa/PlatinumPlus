@@ -18,9 +18,10 @@ class UserController extends Controller
             return redirect()->route('login')->with('error', 'Please login first.');
         }
 
-        if (strtolower($currentUser['role']) !== 'staff') {
+        if (!in_array(strtolower($currentUser['role']), ['staff', 'mentor'])) {
             return redirect()->route('welcome')->with('error', 'Unauthorized access.');
         }
+
 
         $users = User::all();
         return view('manageUser.userlist', compact('users')); // ✅ Corrected path

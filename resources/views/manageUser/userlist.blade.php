@@ -10,9 +10,10 @@
 
 @php
     $user = session('user');
+    $role = strtolower($user['role'] ?? '');
 @endphp
 
-@if($user && strtolower($user['role']) === 'staff')
+@if($user && in_array($role, ['staff', 'mentor']))
     <h2>List of Registered Users</h2>
     <table class="table table-bordered mt-4">
         <thead class="table-light">
@@ -30,7 +31,9 @@
                 <td>{{ $u->email }}</td>
                 <td>{{ $u->role }}</td>
                 <td>
-                    @if($u->username !== $user['username'])
+                    @if($u->username === $user['username'])
+                        <span class="text-muted small">(you)</span>
+                    @elseif($role === 'staff')
                         @if($u->delete_requested)
                             <form action="{{ route('delete.user.approve', ['username' => $u->username]) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to approve and delete this user?');">
                                 @csrf
@@ -46,7 +49,7 @@
                             <span class="text-muted">No request</span>
                         @endif
                     @else
-                        <span class="text-muted small">(you)</span>
+                        <span class="text-muted">No action</span>
                     @endif
                 </td>
             </tr>
@@ -54,14 +57,18 @@
         </tbody>
     </table>
 
-    {{-- Export section --}}
-    <form method="GET" action="{{ route('export.users') }}" class="mt-4 d-flex gap-2 align-items-center">
-        <label for="format" class="form-label mb-0">Export as:</label>
-        <select name="format" id="format" class="form-select w-auto">
-            <option value="pdf">PDF</option>
-            <option value="csv">CSV (Excel)</option>
-        </select>
-        <button type="submit" class="btn btn-success">Export</button>
-    </form>
+    @if($role === 'staff')
+        {{-- Export section (staff only) --}}
+        <form method="GET" action="{{ route('export.users') }}" class="mt-4 d-flex gap-2 align-items-center">
+            <label for="format" class="form-label mb-0">Export as:</label>
+            <select name="format" id="format" class="form-select w-auto">
+                <option value="pdf">PDF</option>
+                <option value="csv">CSV (Excel)</option>
+            </select>
+            <button type="submit" class="btn btn-success">Export</button>
+        </form>
+    @endif
+@else
+    <div class="alert alert-danger">Unauthorized access.</div>
 @endif
 @endsection
