@@ -41,7 +41,7 @@ Route::post('/draftThesis', [ReportController::class, 'store'])->name('draftThes
 Route::get('/draft-thesis/{id}/edit', [ReportController::class, 'edit'])->name('draftThesis.edit');
 Route::put('/draft-thesis/{id}', [ReportController::class, 'update'])->name('draftThesis.update');
 Route::get('/draftThesis/{id}/feedback', [ReportController::class, 'viewFeedback'])->name('draftThesis.viewfeedback');
-Route::delete('/draftthesis/{id}', [ReportController::class, 'destroy'])->name('draftthesis.destroy');
+Route::delete('/draftthesis/{id}', [ReportController::class, 'destroy'])->name('draftthesis.deletefeedback');
 
 Route::resource('draftThesis', ReportController::class);
 
