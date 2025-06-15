@@ -3,8 +3,6 @@
 @section('content')
     <div class="container">
         <h2 class="mb-4">Publication Report</h2>
-
-        <!-- Filter Form -->
         <form method="GET" action="{{ route('publication.report') }}" class="row g-3 mb-4">
             <div class="col-md-4">
                 <label for="month" class="form-label">Month</label>

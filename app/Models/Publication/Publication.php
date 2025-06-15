@@ -18,7 +18,6 @@ class Publication extends Model
     protected $fillable = [
         'publication_type',
         'publication_file',
-        'publication_number',
         'publication_title',
         'publication_author',
         'publication_date',
