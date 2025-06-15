@@ -23,7 +23,11 @@ class Publication extends Model
         'publication_author',
         'publication_date',
         'publication_DOI',
-        'username',
-        'expertPaper_id'
+        'username'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User\User::class, 'username', 'username');
+    }
 }

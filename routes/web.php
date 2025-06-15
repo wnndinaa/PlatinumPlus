@@ -39,4 +39,5 @@ Route::post('/publication/store', [PublicationController::class, 'storeMyPublica
 Route::delete('/publication/MyPublication/delete/{id}', [PublicationController::class, 'deletePublication'])->name('publication.MyPublication.delete');
 Route::get('/publication/MyPublication/EditMyPublication/{id}', [PublicationController::class, 'editMyPublication'])->name('publication.MyPublication.edit');
 Route::put('/publication/MyPublication/update/{id}', [PublicationController::class, 'updateMyPublication'])->name('publication.MyPublication.update');
-
+Route::get('/publicationReport', [PublicationController::class, 'showPublicationReport'])->name('publication.report');
+Route::post('/publicationReport/filter', [PublicationController::class, 'viewPublicationReport'])->name('publication.report.filter');

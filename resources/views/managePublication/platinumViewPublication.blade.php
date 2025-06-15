@@ -19,6 +19,14 @@
                     </tr>
                 </Table>
             </form>
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <a href="{{ route('publication.MyPublication') }}">
+                    <button class="btn btn-primary">Go To My Publication</button>
+                </a>
+                <div>
+                    {{ $publications->links() }}
+                </div>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
@@ -43,18 +51,9 @@
                                     class="btn btn-info btn-sm">
                                     View
                                 </a>
-
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <a href="{{ route('publication.MyPublication') }}">
-                        <button class="btn btn-primary">Go To My Publication</button>
-                    </a>
-                    <div>
-                        {{ $publications->links() }}
-                    </div>
-                </div>
         </div>
     @endsection

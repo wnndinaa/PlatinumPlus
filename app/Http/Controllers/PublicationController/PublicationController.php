@@ -9,6 +9,8 @@ use App\Models\Platinum\Platinum;
 use App\Models\Publication\Publication;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -190,5 +192,99 @@ class PublicationController extends Controller
         $publication->delete();
 
         return redirect()->route('publication.MyPublication')->with('success', 'Publication deleted successfully.');
+    }
+
+    // Publication Report (Monthly & Yearly)
+    public function showPublicationReport(Request $request)
+    {
+        $role = session('user.role') ?? 'Platinum';
+        $user = session('user');
+
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        $query = Publication::query();
+
+        // Platinum users see only their own publications
+        if ($role === 'Platinum' && $user) {
+            $query->where('username', $user->username);
+        }
+
+        // Apply filters
+        if ($month) {
+            $query->whereMonth('publication_date', $month);
+        }
+        if ($year) {
+            $query->whereYear('publication_date', $year);
+        }
+
+        // Paginated results
+        $publications = $query->with('user')->orderBy('publication_date', 'desc')->paginate(5);
+
+        // Stats
+        $totalPublications = (clone $query)->count(); // still okay to clone here
+
+        // Safe and fresh query for top contributor
+        $topUser = Publication::query()
+            ->when($month, fn($q) => $q->whereMonth('publication_date', $month))
+            ->when($year, fn($q) => $q->whereYear('publication_date', $year))
+            ->select('username', DB::raw('COUNT(*) as total'))
+            ->groupBy('username')
+            ->orderByDesc('total')
+            ->first();
+
+
+        $topContributorName = $topUser ? $topUser->username : 'N/A';
+
+        $mostActiveMonth = null;
+        if ($year) {
+            $monthlyStats = Publication::selectRaw('MONTH(publication_date) as month, COUNT(*) as total')
+                ->whereYear('publication_date', $year);
+
+            if ($role === 'Platinum' && $user) {
+                $monthlyStats->where('username', $user->username);
+            }
+
+            $most = $monthlyStats->groupBy('month')->orderByDesc('total')->first();
+            $mostActiveMonth = $most ? Carbon::create()->month($most->month)->format('F') : null;
+        }
+
+        // Chart: Monthly trend
+        $chartLabels = [];
+        $chartData = [];
+
+        if ($year) {
+            $monthlyCounts = Publication::selectRaw('MONTH(publication_date) as month, COUNT(*) as count')
+                ->whereYear('publication_date', $year);
+
+            if ($role === 'Platinum' && $user) {
+                $monthlyCounts->where('username', $user->username);
+            }
+
+            $monthlyCounts = $monthlyCounts->groupBy('month')->get();
+
+            for ($m = 1; $m <= 12; $m++) {
+                $chartLabels[] = Carbon::create()->month($m)->format('F');
+                $count = $monthlyCounts->firstWhere('month', $m);
+                $chartData[] = $count ? $count->count : 0;
+            }
+        }
+
+        // Available years
+        $yearQuery = Publication::selectRaw('YEAR(publication_date) as year')->distinct();
+        if ($role === 'Platinum' && $user) {
+            $yearQuery->where('username', $user->username);
+        }
+        $availableYears = $yearQuery->pluck('year')->sortDesc()->values();
+
+        return view('managePublication.viewPublicationReport', compact(
+            'publications',
+            'totalPublications',
+            'topContributorName',
+            'mostActiveMonth',
+            'chartLabels',
+            'chartData',
+            'availableYears'
+        ));
     }
 }
