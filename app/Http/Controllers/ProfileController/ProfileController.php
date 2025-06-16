@@ -92,7 +92,6 @@ class ProfileController extends Controller
             $platinum->assignedCRMP = $request->assignedCRMP;
             $platinum->save();
         }
-
         return redirect()->route('profile.edit')->with('success', 'Your profile has been successfully updated.');
     }
 

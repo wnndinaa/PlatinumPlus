@@ -19,7 +19,7 @@ class User extends Model
         'name',
         'ic',
         'email',
-        'phonemumber',
+        'phonenumber',
         'role',
         'password',
         'gender',
